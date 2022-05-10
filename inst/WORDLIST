@@ -1,0 +1,10 @@
+WriteXLS
+cowplot
+dplyr
+ggplot
+grDevices
+magrittr
+metabolome
+microbiome
+spearman
+xlsx
