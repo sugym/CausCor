@@ -11,6 +11,9 @@ excel(list, out_info)
 
 \item{out_info}{Output directory.}
 }
+\value{
+No return value, saved as a file.
+}
 \description{
 Save list as Excel
 }

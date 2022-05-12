@@ -5,6 +5,7 @@ Authors@R:
     person("Tomomi", "Sugiyama", email = "sugiyama.t.am@m.titech.ac.jp", role = c("aut", "cre"))
 Description: This tool performs pairwise correlation analysis and estimate causality.
     Particularly, it is useful for detecting the metabolites that would be altered by the gut bacteria.
+URL: https://github.com/sugym/CausCor
 License: MIT + file LICENSE
 Language: en-US
 Encoding: UTF-8
