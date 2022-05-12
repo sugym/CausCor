@@ -16,9 +16,3 @@ test_that("normal filtering has failed", {
 test_that("40% filtering has failed", {
   expect_equal(nrow(list_40), 6)
 })
-
-## Save
-# excel(list_n, "list_n.xlsx")
-# excel(list_40, "list_40.xlsx")
-# plot_16(microbiome_table, metabolome_table, list_n, "list_n.pdf")
-# plot_16(microbiome_table, metabolome_table, list_40, "list_40.pdf")
