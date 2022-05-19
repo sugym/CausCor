@@ -3,9 +3,14 @@
 "CausCor" is an R package for correlation analysis to estimate causality. Particularly, it is useful for detecting the metabolites that would be altered by the gut bacteria.
 
 ## Installation
-
+Causcor can be installed from CRAN, 
 ``` r
-# In RStudio
+# From CRAN
+install.packages("CausCor")
+```
+or from GitHub,
+``` r
+# From GitHub
 devtools::install_github("sugym/CausCor")
 ```
 
