@@ -36,8 +36,8 @@ This package has following functions.
 
 ![](/images/figure1.png)
 
-- Function to save the list as .xlsx: `save_text()`
-- Function to save the scatter plot showing the correlation of pairs in the list as .pdf: `plot_16()`
+- Function to save the list as a text file: `save_text()`
+- Function to save the scatter plot showing the correlation of pairs in the list as a pdf file: `plot_16()`
 
 ## Usage
 
