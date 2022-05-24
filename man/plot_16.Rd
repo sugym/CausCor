@@ -15,9 +15,6 @@ plot_16(a_mat, b_mat, list, out_info)
 
 \item{out_info}{Output directory.}
 }
-\value{
-No return value, saved as a file.
-}
 \description{
 Save scatter plots
 }

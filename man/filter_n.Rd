@@ -21,9 +21,6 @@ filter_n(a_mat, b_mat, a_category, b_category, min_cor, min_sample, min_r2)
 
 \item{min_r2}{Minimum R2.}
 }
-\value{
-Return a list of pairs that passed normal filtering. (data.frame)
-}
 \description{
 Make list of A-B pair causal correlations - Normal Filtering version
 }

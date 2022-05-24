@@ -34,9 +34,6 @@ total samples.}
 \item{max_sample}{Maximum number of samples. The default is 60\% of the
 total samples.}
 }
-\value{
-Return a list of pairs that passed 40\% filtering. (data.frame)
-}
 \description{
 Make list of A-B pair causal correlations - 40\% Filtering version
 }

@@ -9,6 +9,7 @@
 #' @importFrom magrittr set_colnames
 #' @importFrom stats cor
 #' @importFrom stats lm
+#' @importFrom utils write.csv write.table
 #' @importFrom WriteXLS WriteXLS
 
 
@@ -171,14 +172,21 @@ filter_40 <- function(a_mat, b_mat, a_category, b_category, min_cor, min_r2,
 }
 
 # ==============================================================================
-#' Save list as Excel
+#' Save list as text file
 #' @param list List of results.
 #' @param out_info Output directory.
+#' @param file_type Choose from "excel", "csv", "tsv".
 #'
 #' @export
 #'
-excel <- function(list, out_info) {
-  WriteXLS(list, ExcelFileName = out_info)
+save_text <- function(list, out_info, file_type) {
+  if (file_type == "excel") {
+    WriteXLS(list, ExcelFileName = out_info)
+  }else if (file_type == "csv") {
+    write.csv(list, out_info, quote = F, row.names = F)
+  }else if (file_type == "tsv") {
+    write.table(list, out_info, quote = F, sep = "\t", row.names = F)
+  }
 }
 
 # ==============================================================================
@@ -206,8 +214,8 @@ plot_16 <- function(a_mat, b_mat, list, out_info) {
 
     title <- paste0(
       "rs = ", list[, 3][num], ", n = ", list[, 6][num], ", R2 = ",
-      list[, 7][num], "\nrs_b = ", list[, 4][num], ", rs_m = ",
-      list[, 5][num], "\nR2_b = ", list[, 8][num], ", R2_m = ",
+      list[, 7][num], "\nrs_a = ", list[, 4][num], ", rs_b = ",
+      list[, 5][num], "\nR2_a = ", list[, 8][num], ", R2_b = ",
       list[, 9][num], ", R2_diff = ", list[, 10][num])
 
     if (nchar(list[, 1][num]) < 35) {

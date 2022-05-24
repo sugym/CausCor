@@ -3,7 +3,7 @@
 "CausCor" is an R package for correlation analysis to estimate causality. Particularly, it is useful for detecting the metabolites that would be altered by the gut bacteria.
 
 ## Installation
-Causcor can be installed from CRAN, 
+CausCor can be installed from CRAN, 
 ``` r
 # From CRAN
 install.packages("CausCor")
@@ -22,6 +22,7 @@ devtools::install_github("sugym/CausCor")
 - grDevices 4.1.3
 - magrittr 2.0.3
 - stats 4.1.3
+- utils 4.1.3
 - WriteXLS 6.4.0
 
 ## Features
@@ -35,7 +36,7 @@ This package has following functions.
 
 ![](/images/figure1.png)
 
-- Function to save the list as .xlsx: `excel()`
+- Function to save the list as .xlsx: `save_text()`
 - Function to save the scatter plot showing the correlation of pairs in the list as .pdf: `plot_16()`
 
 ## Usage
@@ -52,7 +53,7 @@ Prepare two category tables and read them as dataframe. The first column has the
 - `filter_n()` requires the setting of thresholds for **Spearman correlation coefficient**, **Overlap**, and **R2 score**.
 
 ``` r
-# example               
+# Example               
 list_n <- filter_n(microbiome_table, metabolome_table, "genus", "metabolome",
                    0.6, # Spearman
                    5, # Overlap
@@ -62,7 +63,7 @@ list_n <- filter_n(microbiome_table, metabolome_table, "genus", "metabolome",
 -   `filter_40()` requires the setting of thresholds for **Spearman correlation coefficient** and **R2 score**. If necessary, you can set minimum or maximum Overlap.
 
 ``` r
-# example
+# Example
 list_40 <- filter_40(microbiome_table, metabolome_table, "genus", "metabolome",
                      0.6, # Spearman
                      0.3) # R2 Score
@@ -76,16 +77,17 @@ list_5to10 <- filter_40(microbiome_table, metabolome_table, "genus", "metabolome
 
 ### Saving
 
-- Save the list by `excel()`.
+- Save the list by `save_text()`.
 
 ``` r
-# example
-excel(list_n, "list_n.xlsx")
+# Example
+# You can choose file type from "excel", "csv", "tsv"
+save_text(list_n, "list_n.xlsx", "excel")
 ```
 
 - Save the scatter plot by `plot_16()`.
 
 ``` r
-# example
+# Example
 plot16(microbiome_table, metabolome_table, list_n, "list_n.pdf")
 ```
