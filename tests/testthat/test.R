@@ -1,5 +1,6 @@
 # Test
 ## Prepare tables
+### The following data are processed samples from D. B. Dhakan et al. (2019)
 microbiome_table <- read.csv("../input_data/India_LOC1_genus.csv")
 metabolome_table <- read.csv("../input_data/India_LOC1_serum_metabolome.csv")
 
