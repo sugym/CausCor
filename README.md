@@ -29,10 +29,11 @@ devtools::install_github("sugym/CausCor")
 
 
 This package has following functions.
-- 2 type filtering functions to get correlation lists: `filter_n()`, `filter_40()`
+- 3 type filtering functions to get correlation lists: `filter_n()`, `filter_40()`, `filter_cc`
     - All correlation coefficients and R2 scores are calculated by **Overlap** samples only. Overlap is a pair that both bacteria and metabolite abundance are non-zero.
     - `filter_n()` is the filtering function with thresholds for Spearman correlation coefficient, Overlap, and R2 score.
     - `filter_40()` is the more specialized function for causal estimation. Overlap is fixed between 40% and 60% of the total samples by default. (If necessary, you can change them.) And only extract the pattern that the samples who have the bacteria always have the metabolite in a certain pair.
+    - `filter_cc` is a function that integrates A and B. You are free to select the threshold to use and whether or not to use directional filtering. We recommend using this function rather than the two above.
 
 ![](/images/figure1.png)
 
@@ -75,6 +76,18 @@ list_5to10 <- filter_40(microbiome_table, metabolome_table, "genus", "metabolome
                         max_sample = 10) # maximum Overlap
 ```
 
+-   `filter_cc()` requires the setting of minimum value of **Spearman correlation coefficient** and **R2 score**, minimum and maximum value of **Overlap**. You can select to extract only the association that a sample with a value in the x-axis category (bacteria) will always have a value in the y-axis category (metabolite). This feature is True by default.
+
+``` r
+# Example
+list_cc <- filter_cc(microbiome_table, metabolome_table, "genus", "metabolome",
+                     min_cor = 0.6, # Spearman
+                     min_r2 = 0.3, # R2 Score
+                     min_sample = 5, # minimum Overlap
+                     max_sample = 10, # maximum Overlap
+                     direction = True) # select direction filtering
+```
+
 ### Saving
 
 - Save the list by `save_text()`.
@@ -85,7 +98,7 @@ list_5to10 <- filter_40(microbiome_table, metabolome_table, "genus", "metabolome
 save_text(list_n, "list_n.xlsx", "excel")
 ```
 
-- Save the scatter plot by `plot_16()`.
+- Save the scatter plot by `plot_16()`. You can select to italicize the axis labels. Only the x-axis is italicized by default.
 
 ``` r
 # Example
