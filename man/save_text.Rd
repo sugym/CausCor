@@ -2,7 +2,7 @@
 % Please edit documentation in R/CausCor.R
 \name{save_text}
 \alias{save_text}
-\title{Save list as text file}
+\title{Save list as a text file}
 \usage{
 save_text(list, out_info, file_type)
 }
@@ -14,5 +14,5 @@ save_text(list, out_info, file_type)
 \item{file_type}{Choose from "excel", "csv", "tsv".}
 }
 \description{
-Save list as text file
+Save list as a text file
 }

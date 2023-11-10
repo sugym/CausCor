@@ -27,7 +27,7 @@ bind_mat <- function(a_mat, b_mat) {
 
 # General filtering function
 general <- function(a_mat, b_mat, a_category, b_category,
-                    min_cor, min_sample, max_sample, min_r2, type) {
+                    min_cor, min_r2, min_sample, max_sample, type) {
   # Prepare matrix
   mat <- bind_mat(a_mat, b_mat)
   a_num <- nrow(a_mat)
@@ -56,7 +56,7 @@ general <- function(a_mat, b_mat, a_category, b_category,
   rs_b <- cal_rs(b_na, a_num, b_num) # Spearman of B to A
 
   # Make table
-  if (type == 1) {
+  if (type == 1 || type == 3) {
     table <- cbind(rep(c(rownames(cor_s)), b_num),
                    rep(c(colnames(cor_s)), each = a_num),
                    c(cor_s), c(rs_a), c(rs_b), o_count) %>%
@@ -121,7 +121,7 @@ general <- function(a_mat, b_mat, a_category, b_category,
     t()
   r2_diff <- r2_a - r2_b
 
-  # Filtering by R2 diff
+  # Filtering by R2
   filter_2 <-
     cbind(filter_1, r2, r2_a, r2_b, r2_diff) %>% filter(r2 >= min_r2)
   filter_2 <- filter_2 %>% arrange(desc(filter_2$r2_diff))
@@ -138,15 +138,15 @@ general <- function(a_mat, b_mat, a_category, b_category,
 #' @param a_category Category name of A.
 #' @param b_category Category name of B.
 #' @param min_cor Minimum spearman correlation coefficient.
+#' @param min_r2 Minimum R2 score.
 #' @param min_sample Minimum number of samples.
-#' @param min_r2 Minimum R2.
 #'
 #' @export
 #'
 filter_n <- function(a_mat, b_mat, a_category, b_category,
-                         min_cor, min_sample, min_r2) {
+                     min_cor, min_r2, min_sample) {
   return(general(a_mat, b_mat, a_category, b_category,
-                 min_cor, min_sample, NULL, min_r2, 1))
+                 min_cor, min_r2, min_sample, NULL, 1))
 }
 # ==============================================================================
 #' Make list of A-B pair causal correlations - 40% Filtering version
@@ -155,7 +155,7 @@ filter_n <- function(a_mat, b_mat, a_category, b_category,
 #' @param a_category Category name of A.
 #' @param b_category Category name of B.
 #' @param min_cor Minimum spearman correlation coefficient.
-#' @param min_r2 Minimum R2.
+#' @param min_r2 Minimum R2 score.
 #' @param min_sample Minimum number of samples. The default is 40% of the
 #' total samples.
 #' @param max_sample Maximum number of samples. The default is 60% of the
@@ -164,15 +164,41 @@ filter_n <- function(a_mat, b_mat, a_category, b_category,
 #' @export
 #'
 filter_40 <- function(a_mat, b_mat, a_category, b_category, min_cor, min_r2,
-                          min_sample = ceiling((ncol(a_mat) - 1) * 0.4),
-                          max_sample = ncol(a_mat) - 1 - min_sample) {
-  return(general(a_mat, b_mat, a_category, b_category, min_cor,
-                 min_sample = min_sample, max_sample = max_sample,
-                 min_r2 = min_r2, 2))
+                      min_sample = ceiling((ncol(a_mat) - 1) * 0.4),
+                      max_sample = ncol(a_mat) - 1 - min_sample) {
+  return(general(a_mat, b_mat, a_category, b_category, min_cor, min_r2,
+                 min_sample, max_sample, 2))
 }
 
 # ==============================================================================
-#' Save list as text file
+#' Make list of A-B pair causal correlations
+#' @param a_mat Matrix of measurements of A for each sample.
+#' @param b_mat Matrix of measurements of B for each sample.
+#' @param a_category Category name of A.
+#' @param b_category Category name of B.
+#' @param min_cor Minimum spearman correlation coefficient.
+#' @param min_r2 Minimum R2 score.
+#' @param min_sample Minimum number of samples.
+#' @param max_sample Maximum number of samples. The default is the total
+#' number of samples.
+#' @param direction Extract only directional associations where a change
+#' in category A causes a change in category B. The default is True.
+#'
+#' @export
+#'
+filter_cc <- function(a_mat, b_mat, a_category, b_category, min_cor, min_r2,
+                      min_sample, max_sample = ncol(a_mat) - 1, direction = T) {
+  if (direction == T) {
+    type <- 2
+  }else{
+    type <- 3
+  }
+  return(general(a_mat, b_mat, a_category, b_category, min_cor, min_r2,
+                 min_sample, max_sample, type))
+}
+
+# ==============================================================================
+#' Save list as a text file
 #' @param list List of results.
 #' @param out_info Output directory.
 #' @param file_type Choose from "excel", "csv", "tsv".
@@ -195,10 +221,12 @@ save_text <- function(list, out_info, file_type) {
 #' @param b_mat Matrix of measurements of B for each sample.
 #' @param list List of results.
 #' @param out_info Output directory.
+#' @param x_italic Italicize the x-axis label of the plot. The default is False.
+#' @param y_italic Italicize the y-axis label of the plot. The default is True.
 #'
 #' @export
 #'
-plot_16 <- function(a_mat, b_mat, list, out_info) {
+plot_16 <- function(a_mat, b_mat, list, out_info, x_italic = F, y_italic = T) {
   # Prepare matrix
   mat <- bind_mat(a_mat, b_mat)
 
@@ -228,6 +256,16 @@ plot_16 <- function(a_mat, b_mat, list, out_info) {
     }else{
       xsize <- 4
     }
+    if (x_italic == F) {
+      x_italic <- NULL
+    }else{
+      x_italic <- "italic"
+    }
+    if (y_italic == T) {
+      y_italic <- "italic"
+    }else{
+      y_italic <- NULL
+    }
     mat_2 %>%
       ggplot(aes(x = a, y = b)) +
       geom_point(size = 0.3, aes(colour = factor(c))) +
@@ -239,8 +277,9 @@ plot_16 <- function(a_mat, b_mat, list, out_info) {
             axis.text = element_text(size = 3, colour = "black"),
             axis.text.x = element_text(vjust = 1),
             axis.text.y = element_text(hjust = 1),
-            axis.title.x = element_text(size = xsize, vjust = 1),
-            axis.title.y = element_text(size = 5, vjust = 1, face = "italic"),
+            axis.title.x =
+              element_text(size = xsize, vjust = 1, face = x_italic),
+            axis.title.y = element_text(size = 5, vjust = 1, face = y_italic),
             axis.line = element_line(size = 0.3, lineend = "square"),
             axis.ticks = element_line(size = 0.3, colour = "black"),
             axis.ticks.length = unit(0.7, "mm"),

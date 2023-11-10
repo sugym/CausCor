@@ -4,7 +4,7 @@
 \alias{plot_16}
 \title{Save scatter plots}
 \usage{
-plot_16(a_mat, b_mat, list, out_info)
+plot_16(a_mat, b_mat, list, out_info, x_italic = F, y_italic = T)
 }
 \arguments{
 \item{a_mat}{Matrix of measurements of A for each sample.}
@@ -14,6 +14,10 @@ plot_16(a_mat, b_mat, list, out_info)
 \item{list}{List of results.}
 
 \item{out_info}{Output directory.}
+
+\item{x_italic}{Italicize the x-axis label of the plot. The default is False.}
+
+\item{y_italic}{Italicize the y-axis label of the plot. The default is True.}
 }
 \description{
 Save scatter plots

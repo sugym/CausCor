@@ -4,7 +4,7 @@
 \alias{filter_n}
 \title{Make list of A-B pair causal correlations - Normal Filtering version}
 \usage{
-filter_n(a_mat, b_mat, a_category, b_category, min_cor, min_sample, min_r2)
+filter_n(a_mat, b_mat, a_category, b_category, min_cor, min_r2, min_sample)
 }
 \arguments{
 \item{a_mat}{Matrix of measurements of A for each sample.}
@@ -17,9 +17,9 @@ filter_n(a_mat, b_mat, a_category, b_category, min_cor, min_sample, min_r2)
 
 \item{min_cor}{Minimum spearman correlation coefficient.}
 
-\item{min_sample}{Minimum number of samples.}
+\item{min_r2}{Minimum R2 score.}
 
-\item{min_r2}{Minimum R2.}
+\item{min_sample}{Minimum number of samples.}
 }
 \description{
 Make list of A-B pair causal correlations - Normal Filtering version
